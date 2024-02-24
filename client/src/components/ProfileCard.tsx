@@ -10,11 +10,6 @@ const ProfileCard: React.FC<IProfileCard> = ({ name, email }) => {
     <div className="mt-10 pt-5 h-[300px] flex flex-wrap justify-center  ">
       <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3 bg-white shadow-lg transform ">
         <div className="flex justify-center px-5 mb-4">
-          {/* <img
-            className="h-32 w-32 bg-white p-2 rounded-full   "
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
-            alt=""
-          /> */}
           <h1 className="text-4xl text-indigo-600 font-bold">Welcome 👋</h1>
         </div>
         <div className="mt-2">
