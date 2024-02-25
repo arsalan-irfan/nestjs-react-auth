@@ -33,7 +33,7 @@ export class AuthService {
     const userExists = await this.userModel.findOne({ email });
     if (userExists) {
       this.logger.error('User already exists.');
-      throw new HttpException('Invalid credentials!', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('User already exists!', HttpStatus.CONFLICT);
     }
 
     const secret = this.generateSecret();
