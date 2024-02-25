@@ -98,6 +98,11 @@ export class AuthController {
     }
     return this.clearCookiesInResponse(response);
   }
+  @Post('/clear-session')
+  @HttpCode(HttpStatus.OK)
+  async clearSession(@Res({ passthrough: true }) response: Response) {
+    return this.clearCookiesInResponse(response);
+  }
 
   @Post('/refresh-tokens')
   @HttpCode(HttpStatus.OK)
@@ -109,9 +114,13 @@ export class AuthController {
     const refreshToken = request.cookies[REFRESH_TOKEN];
 
     if (!refreshToken) throw new UnauthorizedException();
-
-    const tokens = await this.authService.refreshTokens(refreshToken);
-    return this.setTokenInResponseCookies(response, tokens);
+    try {
+      const tokens = await this.authService.refreshTokens(refreshToken);
+      return this.setTokenInResponseCookies(response, tokens);
+    } catch (error) {
+      response.status(403);
+      return this.clearCookiesInResponse(response);
+    }
   }
 
   @Get('/me')
