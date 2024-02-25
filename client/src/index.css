@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn {
+  @apply flex justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-indigo-600 hover:bg-indigo-500;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-500;
+}
+
+.btn-success {
+  @apply bg-green-600 hover:bg-green-500;
+}

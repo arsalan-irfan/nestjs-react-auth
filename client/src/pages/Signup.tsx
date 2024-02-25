@@ -1,9 +1,12 @@
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Logo from '../assets/secure-logo.png';
+import { SignUpDto, authService } from '../services/AuthService';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name must not be empty'),
@@ -20,6 +23,21 @@ const validationSchema = Yup.object({
 });
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const onSubmitHandler = async ({ name, email, password }: SignUpDto) => {
+    setLoading(true);
+    try {
+      await authService.signUp({ name, email, password });
+      navigate('/home');
+    } catch (err: any) {
+      toast(err?.message, { type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -27,10 +45,9 @@ const SignUp = () => {
       password: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log('form values', values);
-    },
+    onSubmit: onSubmitHandler,
   });
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -51,6 +68,7 @@ const SignUp = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
+              autoComplete="username"
             />
             {formik.touched.name && formik.errors.name ? (
               <div className="mt-1 text-sm text-red-500">
@@ -84,6 +102,7 @@ const SignUp = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
+              autoComplete="current-password"
             />
             {formik.touched.password && formik.errors.password ? (
               <div className="mt-1 text-sm text-red-500">
@@ -92,8 +111,8 @@ const SignUp = () => {
             ) : null}
           </div>
           <div>
-            <Button disabled={!formik.isValid} type="submit">
-              Sign in
+            <Button disabled={!formik.isValid || loading} type="submit">
+              {!loading ? 'Sign up' : 'Signing up....'}
             </Button>
           </div>
         </form>
@@ -101,13 +120,10 @@ const SignUp = () => {
         <p className="mt-10 text-center text-sm text-gray-500">
           Already have an account?
           <Link to="/">
-            <a
-              href="#"
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >
+            <span className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               {' '}
               Click here to sign in
-            </a>
+            </span>
           </Link>
         </p>
       </div>
