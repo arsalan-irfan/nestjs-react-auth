@@ -7,7 +7,7 @@ This is a full stack application which provides a detailed demonstration of the 
 ### Tech Stack Used:
 
 - Backend Framework: **NestJSv10**
-- Frontend Framework: **Reactv18+Typescript**
+- Frontend Framework: **React v18 + Typescript + Vite**
 - Database: **MongoDB**
 - ORM: **Mongoose**
 - Package Manager: **Yarn**
@@ -39,9 +39,9 @@ cp sample.env .env.dev
 cp sample.env .env.test
 ```
 
-#### 3: Build and run `client`
+#### 3: Build and run `Client`
 
-Open a new terminal the following commands
+Open a new terminal and execute the following commands:
 
 ```sh
 cd client
@@ -51,7 +51,7 @@ yarn dev
 
 #### 4: Build and run `Server`
 
-Open up another terminal and run the following commands
+Open up another terminal and run the following commands:
 
 ```sh
 cd server
