@@ -27,8 +27,10 @@ import {
 import { BasicUserIdentity } from '../../module-contracts/auth/decorators/user-identity.decorator';
 import { UserIdentity } from '../../module-contracts/auth/interface/user-identity.interface';
 import { TokenResponse } from '../../module-contracts/auth/interface/token-response.interface';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -56,6 +58,7 @@ export class AuthController {
       .send();
   }
 
+  @ApiOkResponse()
   @Post('/sign-up')
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(new SanitizeMongooseModelInterceptor())
@@ -73,6 +76,7 @@ export class AuthController {
     });
   }
 
+  @ApiOkResponse()
   @Post('/sign-in')
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(new SanitizeMongooseModelInterceptor())
@@ -85,6 +89,7 @@ export class AuthController {
     return this.setTokenInResponseCookies(response, tokens);
   }
 
+  @ApiOkResponse()
   @Post('/sign-out')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
@@ -98,12 +103,8 @@ export class AuthController {
     }
     return this.clearCookiesInResponse(response);
   }
-  @Post('/clear-session')
-  @HttpCode(HttpStatus.OK)
-  async clearSession(@Res({ passthrough: true }) response: Response) {
-    return this.clearCookiesInResponse(response);
-  }
 
+  @ApiOkResponse()
   @Post('/refresh-tokens')
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(new SanitizeMongooseModelInterceptor())
@@ -123,6 +124,7 @@ export class AuthController {
     }
   }
 
+  @ApiOkResponse()
   @Get('/me')
   @UseGuards(AuthGuard)
   @UseInterceptors(new SanitizeMongooseModelInterceptor())
